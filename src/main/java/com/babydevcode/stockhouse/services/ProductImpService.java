@@ -28,21 +28,13 @@ public class ProductImpService implements ProductService {
     public List<ProductDTO> getProductsByCategory(String category) {
         Category categoryEntity = categoryService.getCategoryByName(category);
         List<Product> products = productRepository.findAllByCategory(categoryEntity);
-        List<ProductDTO> productDTOs = new ArrayList();
-        for (Product product : products) {
-            productDTOs.add(productMapper.productToDto(product));
-        }
-        return productDTOs;
+        return transformProductToDTO(products);
     }
 
     @Override
     public List<ProductDTO> getProducts() {
        List<Product> products = productRepository.findAll();
-       List<ProductDTO> productDTOs = new ArrayList();
-        for (Product product : products) {
-            productDTOs.add(productMapper.productToDto(product));
-        }
-       return productDTOs;
+       return transformProductToDTO(products);
     }
 
     @Override
@@ -60,6 +52,14 @@ public class ProductImpService implements ProductService {
     @Override
     public void deleteProduct(Product product) {
         productRepository.delete(product);
+    }
+
+    private List<ProductDTO> transformProductToDTO(List<Product> products){
+        List<ProductDTO> productDTOs = new ArrayList();
+        for (Product product : products) {
+            productDTOs.add(productMapper.productToDto(product));
+        }
+       return productDTOs;
     }
 
 }
