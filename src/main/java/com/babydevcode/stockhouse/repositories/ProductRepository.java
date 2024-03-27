@@ -10,5 +10,7 @@ import com.babydevcode.stockhouse.entities.Product;
 public interface ProductRepository extends JpaRepository<Product,Integer> {
 
     List<Product> findAllByCategory(Category category);
+
+    Product findByNameProduct(String nameProduct);
     
 }

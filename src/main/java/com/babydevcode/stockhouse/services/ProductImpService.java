@@ -38,19 +38,23 @@ public class ProductImpService implements ProductService {
     }
 
     @Override
-    public void addProduct(Product product) {
+    public void addProduct(ProductDTO productDto) {
+        Category categoryEntity = categoryService.getCategoryByName(productDto.getCategory());
+        Product product = productMapper.dtoToProduct(productDto);
+        product.setCategory(categoryEntity);
         productRepository.save(product);
     }
 
     @Override
-    public void updateProductAmount(Product product, Integer amount) {
-        Product productSearched = productRepository.findById(product.getIdProduct()).orElse(null);
+    public void updateProductAmount(ProductDTO productDto, Integer amount) {
+        Product productSearched = productRepository.findByNameProduct(productDto.getNameProduct());
         productSearched.setAmountProduct(amount);
         productRepository.save(productSearched);
     }
 
     @Override
-    public void deleteProduct(Product product) {
+    public void deleteProduct(ProductDTO productDto) {
+        Product product = productRepository.findByNameProduct(productDto.getNameProduct());
         productRepository.delete(product);
     }
 
