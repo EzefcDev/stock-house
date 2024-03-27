@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.babydevcode.stockhouse.dto.ProductDTO;
-import com.babydevcode.stockhouse.entities.Category;
-import com.babydevcode.stockhouse.entities.Product;
 import com.babydevcode.stockhouse.services.CategoryService;
 import com.babydevcode.stockhouse.services.ProductService;
 
@@ -54,6 +52,8 @@ public class IndexController implements Initializable {
 
     private List<ProductDTO> listProducts = new ArrayList<>();
 
+    private ProductDTO productStock;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         stockTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -93,5 +93,17 @@ public class IndexController implements Initializable {
     public void clearCategory(){
         selectCategory.getSelectionModel().clearSelection();
         listProducts(productService.getProducts());
+    }
+
+    public void updateStock(){
+        System.out.println(productStock.getNameProduct());
+    }
+
+    public void deleteItemStock(){
+        productService.deleteProduct(productStock.getNameProduct());
+    }
+
+    public void selectedItemStock(){
+        productStock = stockTable.getSelectionModel().getSelectedItem();
     }
 }

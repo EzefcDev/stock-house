@@ -14,6 +14,6 @@ public interface ProductService {
 
     public void updateProductAmount(ProductDTO productDto,Integer amount);
 
-    public void deleteProduct(ProductDTO productDto);
+    public void deleteProduct(String productName);
 
 }

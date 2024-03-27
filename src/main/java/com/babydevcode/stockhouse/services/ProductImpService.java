@@ -53,8 +53,8 @@ public class ProductImpService implements ProductService {
     }
 
     @Override
-    public void deleteProduct(ProductDTO productDto) {
-        Product product = productRepository.findByNameProduct(productDto.getNameProduct());
+    public void deleteProduct(String productName) {
+        Product product = productRepository.findByNameProduct(productName);
         productRepository.delete(product);
     }
 

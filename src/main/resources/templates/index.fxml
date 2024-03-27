@@ -12,7 +12,7 @@
    <children>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="82.0" prefWidth="600.0">
          <children>
-            <Button layoutX="467.0" layoutY="37.0" mnemonicParsing="false" text="Agregar Producto" />
+            <Button fx:id="addButton" layoutX="467.0" layoutY="37.0" mnemonicParsing="false" text="Agregar Producto" />
             <Label layoutX="6.0" layoutY="12.0" text="Categorias" />
             <ComboBox fx:id="selectCategory" layoutX="6.0" layoutY="37.0" onAction="#getCategory" prefWidth="150.0" />
             <Button fx:id="clearButton" layoutX="172.0" layoutY="37.0" mnemonicParsing="false" onAction="#clearCategory" text="Limpiar" />
@@ -20,7 +20,7 @@
       </AnchorPane>
       <Pane layoutX="42.0" layoutY="99.0" prefHeight="201.0" prefWidth="500.0">
          <children>
-            <TableView fx:id="stockTable" layoutX="-2.0" layoutY="1.0" prefHeight="200.0" prefWidth="500.0">
+            <TableView fx:id="stockTable" layoutX="-2.0" layoutY="1.0" onMouseClicked="#selectedItemStock" prefHeight="200.0" prefWidth="500.0">
               <columns>
                 <TableColumn fx:id="columnName" prefWidth="166.0" text="Nombre" />
                 <TableColumn fx:id="columnAmount" prefWidth="166.0" text="Cantidad" />
@@ -31,8 +31,8 @@
       </Pane>
       <Pane layoutX="42.0" layoutY="313.0" prefHeight="73.0" prefWidth="500.0">
          <children>
-            <Button layoutX="112.0" layoutY="24.0" mnemonicParsing="false" text="Actualizar" />
-            <Button layoutX="362.0" layoutY="24.0" mnemonicParsing="false" text="Eliminar" />
+            <Button fx:id="updateButton" layoutX="112.0" layoutY="24.0" mnemonicParsing="false" onAction="#updateStock" text="Actualizar" />
+            <Button fx:id="deleteButton" layoutX="362.0" layoutY="24.0" mnemonicParsing="false" onAction="#deleteItemStock" text="Eliminar" />
          </children>
       </Pane>
    </children>
