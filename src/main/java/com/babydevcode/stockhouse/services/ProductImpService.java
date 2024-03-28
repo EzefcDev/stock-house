@@ -59,9 +59,10 @@ public class ProductImpService implements ProductService {
     }
 
     private List<ProductDTO> transformProductToDTO(List<Product> products){
-        List<ProductDTO> productDTOs = new ArrayList();
+        List<ProductDTO> productDTOs = new ArrayList<ProductDTO>();
         for (Product product : products) {
-            productDTOs.add(productMapper.productToDto(product));
+            ProductDTO productDTO = productMapper.productToDto(product);
+            productDTOs.add(productDTO);
         }
        return productDTOs;
     }

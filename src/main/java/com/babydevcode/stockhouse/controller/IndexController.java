@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.babydevcode.stockhouse.StockHouseApplication;
 import com.babydevcode.stockhouse.dto.ProductDTO;
 import com.babydevcode.stockhouse.services.CategoryService;
 import com.babydevcode.stockhouse.services.ProductService;
@@ -15,21 +16,26 @@ import com.babydevcode.stockhouse.services.ProductService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 @Component
 public class IndexController implements Initializable {
 
     @Autowired
-    CategoryService categoryService;
+    private CategoryService categoryService;
 
     @Autowired
-    ProductService productService;
+    private ProductService productService;
 
     @FXML
     private ComboBox<String> selectCategory;
@@ -45,6 +51,9 @@ public class IndexController implements Initializable {
 
     @FXML
     private TableColumn<ProductDTO,String> columnCategory;
+
+    @FXML
+    private Button addButton;
 
     private final ObservableList<ProductDTO> stockList = FXCollections.observableArrayList();
 
@@ -93,6 +102,24 @@ public class IndexController implements Initializable {
     public void clearCategory(){
         selectCategory.getSelectionModel().clearSelection();
         listProducts(productService.getProducts());
+    }
+
+    public void addItemStock(){
+        try {
+
+            FXMLLoader loader = new FXMLLoader(StockHouseApplication.class.getResource("/templates/addItemStock.fxml"));
+
+            Parent root = loader.load();
+
+            Scene escena = new Scene(root);
+            Stage stage = new Stage();
+            stage.setTitle("Agregar Producto");
+            stage.setScene(escena);
+            stage.show();
+
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
     }
 
     public void updateStock(){
