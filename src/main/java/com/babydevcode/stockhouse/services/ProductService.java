@@ -8,11 +8,13 @@ public interface ProductService {
     
     public List<ProductDTO> getProductsByCategory(String category);
 
+    public List<ProductDTO> getProductsByName(String productName);
+
     public List<ProductDTO> getProducts();
 
     public void addProduct(ProductDTO productDto);
 
-    public void updateProductAmount(ProductDTO productDto,Integer amount);
+    public void updateProductAmount(String productName,Integer amount);
 
     public void deleteProduct(String productName);
 

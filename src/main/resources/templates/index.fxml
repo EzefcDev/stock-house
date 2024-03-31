@@ -5,22 +5,24 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane accessibleText="Stock" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.babydevcode.stockhouse.controller.IndexController">
+<AnchorPane accessibleText="Stock" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="864.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.babydevcode.stockhouse.controller.IndexController">
    <children>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="82.0" prefWidth="600.0">
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="82.0" prefWidth="540.0">
          <children>
-            <Button fx:id="addButton" layoutX="467.0" layoutY="37.0" mnemonicParsing="false" onAction="#addItemStock" text="Agregar Producto" />
             <Label layoutX="6.0" layoutY="12.0" text="Categorias" />
             <ComboBox fx:id="selectCategory" layoutX="6.0" layoutY="37.0" onAction="#getCategory" prefWidth="150.0" />
             <Button fx:id="clearButton" layoutX="172.0" layoutY="37.0" mnemonicParsing="false" onAction="#clearCategory" text="Limpiar" />
+            <TextField fx:id="searchText" layoutX="286.0" layoutY="37.0" />
+            <Button fx:id="searchButton" layoutX="461.0" layoutY="37.0" mnemonicParsing="false" onAction="#searchProduct" text="Buscar" />
          </children>
       </AnchorPane>
-      <Pane layoutX="42.0" layoutY="99.0" prefHeight="201.0" prefWidth="500.0">
+      <Pane layoutX="42.0" layoutY="99.0" prefHeight="220.0" prefWidth="500.0">
          <children>
-            <TableView fx:id="stockTable" layoutX="-2.0" layoutY="1.0" onMouseClicked="#selectedItemStock" prefHeight="200.0" prefWidth="500.0">
+            <TableView fx:id="stockTable" layoutX="-2.0" layoutY="1.0" onMouseClicked="#selectedItemStock" prefHeight="220.0" prefWidth="500.0">
               <columns>
                 <TableColumn fx:id="columnName" prefWidth="166.0" text="Nombre" />
                 <TableColumn fx:id="columnAmount" prefWidth="166.0" text="Cantidad" />
@@ -29,10 +31,27 @@
             </TableView>
          </children>
       </Pane>
-      <Pane layoutX="42.0" layoutY="313.0" prefHeight="73.0" prefWidth="500.0">
+      <Pane layoutX="563.0" layoutY="327.0" prefHeight="59.0" prefWidth="287.0">
          <children>
-            <Button fx:id="updateButton" layoutX="112.0" layoutY="24.0" mnemonicParsing="false" onAction="#updateStock" text="Actualizar" />
-            <Button fx:id="deleteButton" layoutX="362.0" layoutY="24.0" mnemonicParsing="false" onAction="#deleteItemStock" text="Eliminar" />
+            <Button fx:id="updateButton" layoutX="31.0" layoutY="24.0" mnemonicParsing="false" onAction="#updateItemStock" text="Actualizar" />
+            <Button fx:id="deleteButton" layoutX="211.0" layoutY="24.0" mnemonicParsing="false" onAction="#deleteItemStock" text="Eliminar" />
+            <Button fx:id="addButton" layoutX="123.0" layoutY="24.0" mnemonicParsing="false" onAction="#addItemStock" text="Agregar " />
+         </children>
+      </Pane>
+      <Pane layoutX="192.0" layoutY="327.0" prefHeight="59.0" prefWidth="200.0">
+         <children>
+            <Button fx:id="next" layoutX="28.0" layoutY="17.0" mnemonicParsing="false" text="&lt;&lt;" />
+            <Button fx:id="after" layoutX="126.0" layoutY="17.0" mnemonicParsing="false" text="&gt;&gt;" />
+         </children>
+      </Pane>
+      <Pane layoutX="574.0" layoutY="100.0" prefHeight="220.0" prefWidth="273.0">
+         <children>
+            <Label layoutX="24.0" layoutY="14.0" text="Nombre" />
+            <Label layoutX="24.0" layoutY="93.0" text="Cantidad" />
+            <Label layoutX="24.0" layoutY="154.0" text="Categorria" />
+            <TextField fx:id="nameText" layoutX="102.0" layoutY="10.0" />
+            <TextField fx:id="amountText" layoutX="102.0" layoutY="89.0" />
+            <ComboBox fx:id="selectCategoryProduct" layoutX="101.0" layoutY="150.0" prefWidth="150.0" />
          </children>
       </Pane>
    </children>

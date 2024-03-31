@@ -8,7 +8,6 @@ import java.util.ResourceBundle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.babydevcode.stockhouse.StockHouseApplication;
 import com.babydevcode.stockhouse.dto.ProductDTO;
 import com.babydevcode.stockhouse.services.CategoryService;
 import com.babydevcode.stockhouse.services.ProductService;
@@ -16,17 +15,14 @@ import com.babydevcode.stockhouse.services.ProductService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 
 @Component
 public class IndexController implements Initializable {
@@ -41,6 +37,9 @@ public class IndexController implements Initializable {
     private ComboBox<String> selectCategory;
 
     @FXML
+    private ComboBox<String> selectCategoryProduct;
+
+    @FXML
     private TableView<ProductDTO> stockTable;
 
     @FXML
@@ -51,6 +50,15 @@ public class IndexController implements Initializable {
 
     @FXML
     private TableColumn<ProductDTO,String> columnCategory;
+
+    @FXML
+    private TextField nameText;
+
+    @FXML
+    private TextField searchText;
+
+    @FXML
+    private TextField amountText;
 
     @FXML
     private Button addButton;
@@ -91,6 +99,7 @@ public class IndexController implements Initializable {
     private void listCategories() {
         categoriesList.addAll(categoryService.allCategories());
         selectCategory.setItems(categoriesList);
+        selectCategoryProduct.setItems(categoriesList);
     }
     
     public void getCategory(){
@@ -104,33 +113,45 @@ public class IndexController implements Initializable {
         listProducts(productService.getProducts());
     }
 
+    @FXML
     public void addItemStock(){
-        try {
-
-            FXMLLoader loader = new FXMLLoader(StockHouseApplication.class.getResource("/templates/addItemStock.fxml"));
-
-            Parent root = loader.load();
-
-            Scene escena = new Scene(root);
-            Stage stage = new Stage();
-            stage.setTitle("Agregar Producto");
-            stage.setScene(escena);
-            stage.show();
-
-        } catch (Exception e) {
-            // TODO: handle exception
-        }
+        ProductDTO productDTO = new ProductDTO();
+        productDTO.setNameProduct(nameText.getText());
+        productDTO.setAmountProduct(Integer.valueOf(amountText.getText()));
+        productDTO.setCategory(selectCategoryProduct.getSelectionModel().getSelectedItem());
+        productService.addProduct(productDTO);
+        refreshProducto();
     }
 
-    public void updateStock(){
-        System.out.println(productStock.getNameProduct());
+    @FXML
+    public void updateItemStock(){
+        productService.updateProductAmount(nameText.getText(),Integer.valueOf(amountText.getText()));
+        refreshProducto();
     }
 
+    @FXML
     public void deleteItemStock(){
         productService.deleteProduct(productStock.getNameProduct());
+        refreshProducto();
+    }
+    
+    @FXML
+    public void searchProduct(){
+        List<ProductDTO> listProducts = productService.getProductsByName(searchText.getText());
+        listProducts(listProducts);
     }
 
     public void selectedItemStock(){
         productStock = stockTable.getSelectionModel().getSelectedItem();
+        nameText.setText(productStock.getNameProduct());
+        amountText.setText(Integer.toString(productStock.getAmountProduct()));
+        selectCategoryProduct.getSelectionModel().select(productStock.getCategory());
+    }
+
+    private void refreshProducto(){
+        clearCategory();
+        nameText.setText(null);
+        amountText.setText(null);
+        selectCategoryProduct.getSelectionModel().clearSelection();
     }
 }
