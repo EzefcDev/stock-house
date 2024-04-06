@@ -73,4 +73,10 @@ public class ProductImpService implements ProductService {
        return productDTOs;
     }
 
+    @Override
+    public Product getProduct(String productName) {
+        Product product = productRepository.findByNameProduct(productName);
+        return product;
+    }
+
 }

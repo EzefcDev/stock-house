@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.babydevcode.stockhouse.dto.ProductDTO;
+import com.babydevcode.stockhouse.entities.Product;
 import com.babydevcode.stockhouse.services.CategoryService;
 import com.babydevcode.stockhouse.services.ProductService;
 
@@ -16,6 +17,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.SelectionMode;
@@ -102,12 +104,14 @@ public class IndexController implements Initializable {
         selectCategoryProduct.setItems(categoriesList);
     }
     
+    @FXML
     public void getCategory(){
         String category = selectCategory.getSelectionModel().getSelectedItem();
         List<ProductDTO> listProducts = productService.getProductsByCategory(category);
         listProducts(listProducts);
     }
 
+    @FXML
     public void clearCategory(){
         selectCategory.getSelectionModel().clearSelection();
         listProducts(productService.getProducts());
@@ -115,6 +119,10 @@ public class IndexController implements Initializable {
 
     @FXML
     public void addItemStock(){
+        if ( nameText.getText().isBlank() || amountText.getText().isBlank() || selectCategoryProduct.getSelectionModel().getSelectedItem().isBlank()) {
+            mostrarMensaje("Campos incompletos", "Todos los campos son necesarios");
+            return;
+        }
         ProductDTO productDTO = new ProductDTO();
         productDTO.setNameProduct(nameText.getText());
         productDTO.setAmountProduct(Integer.valueOf(amountText.getText()));
@@ -125,13 +133,21 @@ public class IndexController implements Initializable {
 
     @FXML
     public void updateItemStock(){
+        if ( nameText.getText().isBlank() || amountText.getText().isBlank() || selectCategoryProduct.getSelectionModel().getSelectedItem().isBlank()) {
+            mostrarMensaje("Campos incompletos", "Todos los campos son necesarios");
+            return;
+        }
         productService.updateProductAmount(nameText.getText(),Integer.valueOf(amountText.getText()));
         refreshProducto();
     }
 
     @FXML
     public void deleteItemStock(){
-        productService.deleteProduct(productStock.getNameProduct());
+        if ( nameText.getText().isBlank() || amountText.getText().isBlank() || selectCategoryProduct.getSelectionModel().getSelectedItem().isBlank()) {
+            mostrarMensaje("Campos incompletos", "Todos los campos son necesarios");
+            return;
+        }
+        productService.deleteProduct(nameText.getText());
         refreshProducto();
     }
     
@@ -153,5 +169,23 @@ public class IndexController implements Initializable {
         nameText.setText(null);
         amountText.setText(null);
         selectCategoryProduct.getSelectionModel().clearSelection();
+    }
+
+    @FXML
+    public void nextPage(){
+        
+    }
+
+    @FXML
+    public void afterPage(){
+
+    }
+
+    private void mostrarMensaje(String titulo, String mensaje) {
+        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+        alerta.setTitle(titulo);
+        alerta.setHeaderText(null);
+        alerta.setContentText(mensaje);
+        alerta.showAndWait();
     }
 }

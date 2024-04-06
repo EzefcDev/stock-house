@@ -40,8 +40,8 @@
       </Pane>
       <Pane layoutX="192.0" layoutY="327.0" prefHeight="59.0" prefWidth="200.0">
          <children>
-            <Button fx:id="next" layoutX="28.0" layoutY="17.0" mnemonicParsing="false" text="&lt;&lt;" />
-            <Button fx:id="after" layoutX="126.0" layoutY="17.0" mnemonicParsing="false" text="&gt;&gt;" />
+            <Button fx:id="next" layoutX="28.0" layoutY="17.0" mnemonicParsing="false" onAction="#nextPage" text="&lt;&lt;" />
+            <Button fx:id="after" layoutX="126.0" layoutY="17.0" mnemonicParsing="false" onAction="#afterPage" text="&gt;&gt;" />
          </children>
       </Pane>
       <Pane layoutX="574.0" layoutY="100.0" prefHeight="220.0" prefWidth="273.0">

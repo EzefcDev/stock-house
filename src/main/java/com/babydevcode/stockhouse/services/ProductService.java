@@ -3,6 +3,7 @@ package com.babydevcode.stockhouse.services;
 import java.util.List;
 
 import com.babydevcode.stockhouse.dto.ProductDTO;
+import com.babydevcode.stockhouse.entities.Product;
 
 public interface ProductService {
     
@@ -17,5 +18,7 @@ public interface ProductService {
     public void updateProductAmount(String productName,Integer amount);
 
     public void deleteProduct(String productName);
+
+    public Product getProduct(String productName);
 
 }
