@@ -20,6 +20,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Pagination;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -65,6 +66,9 @@ public class IndexController implements Initializable {
     @FXML
     private Button addButton;
 
+    @FXML
+    private Pagination paginationProduct;
+
     private final ObservableList<ProductDTO> stockList = FXCollections.observableArrayList();
 
     private final ObservableList<String> categoriesList = FXCollections.observableArrayList();
@@ -89,7 +93,7 @@ public class IndexController implements Initializable {
 
     private void listProducts(List<ProductDTO> listProducts) {
         stockList.clear();
-        if (listProducts.size() > 0) {
+        if (listProducts.isEmpty()) {
             stockList.addAll(listProducts);
             stockTable.setItems(stockList); 
         } else {
@@ -172,13 +176,22 @@ public class IndexController implements Initializable {
     }
 
     @FXML
-    public void nextPage(){
-        
+    public void addOneProduct(){
+        int amount = 0 ;
+        if (!amountText.getText().isEmpty()) {
+            amount = Integer.parseInt(amountText.getText());
+        }
+        int amountSend = amount + 1;
+        amountText.setText(String.valueOf(amountSend));
     }
 
     @FXML
-    public void afterPage(){
-
+    public void restOneProduct(){
+        if (!amountText.getText().isEmpty() && Integer.parseInt(amountText.getText()) > 0 ) {
+           int amount = Integer.parseInt(amountText.getText());
+           int amountSend = amount - 1;
+           amountText.setText(String.valueOf(amountSend));
+        }
     }
 
     private void mostrarMensaje(String titulo, String mensaje) {
