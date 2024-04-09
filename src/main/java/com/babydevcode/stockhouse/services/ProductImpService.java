@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.babydevcode.stockhouse.dto.ProductDTO;
@@ -77,6 +80,14 @@ public class ProductImpService implements ProductService {
     public Product getProduct(String productName) {
         Product product = productRepository.findByNameProduct(productName);
         return product;
+    }
+
+    @Override
+    public Page<ProductDTO> getProductsPage(Integer page) {
+        Integer size = 8 ;
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Product> listProducts = productRepository.findAll(pageable);
+        return productMapper.productsToProductDTOs(listProducts);
     }
 
 }

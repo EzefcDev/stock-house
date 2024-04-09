@@ -41,7 +41,7 @@
       </Pane>
       <Pane layoutX="81.0" layoutY="327.0" prefHeight="59.0" prefWidth="427.0">
          <children>
-            <Pagination fx:id="paginationProduct" layoutX="114.0" layoutY="4.0" prefHeight="51.0" prefWidth="200.0" />
+            <Pagination fx:id="paginationProduct" layoutX="114.0" layoutY="4.0" maxPageIndicatorCount="5" prefHeight="51.0" prefWidth="200.0" />
          </children>
       </Pane>
       <Pane layoutX="574.0" layoutY="100.0" prefHeight="220.0" prefWidth="273.0">
@@ -52,8 +52,8 @@
             <TextField fx:id="nameText" layoutX="102.0" layoutY="10.0" />
             <TextField fx:id="amountText" layoutX="159.0" layoutY="89.0" prefHeight="26.0" prefWidth="35.0" />
             <ComboBox fx:id="selectCategoryProduct" layoutX="101.0" layoutY="150.0" prefWidth="150.0" />
-            <Button fx:id="restOne" layoutX="200.0" layoutY="87.0" mnemonicParsing="false" onAction="#restOneProduct" text="-" />
-            <Button fx:id="addOne" layoutX="101.0" layoutY="87.0" mnemonicParsing="false" onAction="#addOneProduct" text="+" />
+            <Button fx:id="restOne" layoutX="219.0" layoutY="87.0" minHeight="20.0" minWidth="35.0" mnemonicParsing="false" onAction="#restOneProduct" prefHeight="30.0" prefWidth="35.0" text="-" />
+            <Button fx:id="addOne" layoutX="101.0" layoutY="87.0" maxHeight="30.0" maxWidth="53.0" minHeight="20.0" minWidth="35.0" mnemonicParsing="false" onAction="#addOneProduct" prefHeight="30.0" prefWidth="35.0" text="+" />
          </children>
       </Pane>
    </children>

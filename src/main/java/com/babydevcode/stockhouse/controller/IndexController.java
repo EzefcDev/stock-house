@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import com.babydevcode.stockhouse.dto.ProductDTO;
@@ -13,6 +14,8 @@ import com.babydevcode.stockhouse.entities.Product;
 import com.babydevcode.stockhouse.services.CategoryService;
 import com.babydevcode.stockhouse.services.ProductService;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -73,15 +76,23 @@ public class IndexController implements Initializable {
 
     private final ObservableList<String> categoriesList = FXCollections.observableArrayList();
 
-    private List<ProductDTO> listProducts = new ArrayList<>();
-
-    private ProductDTO productStock;
+    private Page<ProductDTO> listProductsPage;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         stockTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        listProductsPage = productService.getProductsPage(0);
+        paginationProduct.setPageCount(listProductsPage.getTotalPages());
+        paginationProduct.setCurrentPageIndex(listProductsPage.getNumber());
+        paginationProduct.currentPageIndexProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                int currentPageIndex = newValue.intValue();
+                listProducts(productService.getProductsPage(currentPageIndex).getContent()) ;
+            }
+        });
         configurationColumns();
-        listProducts(listProducts);
+        listProducts(listProductsPage.getContent());
         listCategories();
     }
     
@@ -93,7 +104,7 @@ public class IndexController implements Initializable {
 
     private void listProducts(List<ProductDTO> listProducts) {
         stockList.clear();
-        if (listProducts.isEmpty()) {
+        if (listProducts.size() > 0) {
             stockList.addAll(listProducts);
             stockTable.setItems(stockList); 
         } else {
@@ -111,8 +122,8 @@ public class IndexController implements Initializable {
     @FXML
     public void getCategory(){
         String category = selectCategory.getSelectionModel().getSelectedItem();
-        List<ProductDTO> listProducts = productService.getProductsByCategory(category);
-        listProducts(listProducts);
+        List<ProductDTO> listProductsByCategory = productService.getProductsByCategory(category);
+        listProducts(listProductsByCategory);
     }
 
     @FXML
@@ -157,12 +168,12 @@ public class IndexController implements Initializable {
     
     @FXML
     public void searchProduct(){
-        List<ProductDTO> listProducts = productService.getProductsByName(searchText.getText());
-        listProducts(listProducts);
+        List<ProductDTO> listProductsByName = productService.getProductsByName(searchText.getText());
+        listProducts(listProductsByName);
     }
 
     public void selectedItemStock(){
-        productStock = stockTable.getSelectionModel().getSelectedItem();
+        ProductDTO productStock = stockTable.getSelectionModel().getSelectedItem();
         nameText.setText(productStock.getNameProduct());
         amountText.setText(Integer.toString(productStock.getAmountProduct()));
         selectCategoryProduct.getSelectionModel().select(productStock.getCategory());
@@ -170,8 +181,8 @@ public class IndexController implements Initializable {
 
     private void refreshProducto(){
         clearCategory();
-        nameText.setText(null);
-        amountText.setText(null);
+        nameText.setText("");
+        amountText.setText("");
         selectCategoryProduct.getSelectionModel().clearSelection();
     }
 
