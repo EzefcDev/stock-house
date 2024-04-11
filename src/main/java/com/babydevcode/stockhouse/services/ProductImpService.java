@@ -28,10 +28,12 @@ public class ProductImpService implements ProductService {
     ProductMapper productMapper;
 
     @Override
-    public List<ProductDTO> getProductsByCategory(String category) {
+    public Page<ProductDTO> getProductsByCategory(String category, Integer page) {
+        Integer size = 8 ;
+        Pageable pageable = PageRequest.of(page, size);
         Category categoryEntity = categoryService.getCategoryByName(category);
-        List<Product> products = productRepository.findAllByCategory(categoryEntity);
-        return transformProductToDTO(products);
+        Page<Product> products = productRepository.findAllByCategory(categoryEntity, pageable);
+        return productMapper.productsToProductDTOs(products);
     }
 
     @Override
@@ -62,9 +64,11 @@ public class ProductImpService implements ProductService {
     }
 
     @Override
-    public List<ProductDTO> getProductsByName(String productName) {
-        List<Product> products =productRepository.findByNameProductContaining(productName);
-        return transformProductToDTO(products);
+    public Page<ProductDTO> getProductsByName(String productName, Integer page) {
+        Integer size = 8 ;
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Product> productsSearching = productRepository.findByNameProductContaining(productName, pageable);
+        return productMapper.productsToProductDTOs(productsSearching);
     }
 
     private List<ProductDTO> transformProductToDTO(List<Product> products){

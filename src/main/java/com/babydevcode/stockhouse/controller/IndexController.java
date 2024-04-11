@@ -81,18 +81,15 @@ public class IndexController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         stockTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        listProductsPage = productService.getProductsPage(0);
-        paginationProduct.setPageCount(listProductsPage.getTotalPages());
-        paginationProduct.setCurrentPageIndex(listProductsPage.getNumber());
         paginationProduct.currentPageIndexProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 int currentPageIndex = newValue.intValue();
-                listProducts(productService.getProductsPage(currentPageIndex).getContent()) ;
+                listProducts("",currentPageIndex,"") ;
             }
         });
         configurationColumns();
-        listProducts(listProductsPage.getContent());
+        listProducts("",0,"") ;
         listCategories();
     }
     
@@ -102,15 +99,19 @@ public class IndexController implements Initializable {
         columnCategory.setCellValueFactory(new PropertyValueFactory<>("category"));
     }
 
-    private void listProducts(List<ProductDTO> listProducts) {
+    private void listProducts(String category, Integer page, String searching) {
         stockList.clear();
-        if (listProducts.size() > 0) {
-            stockList.addAll(listProducts);
-            stockTable.setItems(stockList); 
+        if (category.isEmpty() && !searching.isEmpty()) {
+            listProductsPage = productService.getProductsByName(searchText.getText(), page);
+        } else if (!category.isEmpty()) {
+            listProductsPage = productService.getProductsByCategory(category, page);
         } else {
-            stockList.addAll(productService.getProducts());
-            stockTable.setItems(stockList);
+            listProductsPage = productService.getProductsPage(page);
         }
+        paginationProduct.setPageCount(listProductsPage.getTotalPages());
+        paginationProduct.setCurrentPageIndex(listProductsPage.getNumber());
+        stockList.addAll(listProductsPage.getContent());
+        stockTable.setItems(stockList); 
     }
 
     private void listCategories() {
@@ -121,15 +122,22 @@ public class IndexController implements Initializable {
     
     @FXML
     public void getCategory(){
-        String category = selectCategory.getSelectionModel().getSelectedItem();
-        List<ProductDTO> listProductsByCategory = productService.getProductsByCategory(category);
-        listProducts(listProductsByCategory);
+        String categoryExist = selectCategory.getSelectionModel().getSelectedItem() ;
+        String categoryName = categoryExist != null ? categoryExist : "";
+        listProducts(categoryName, 0, "");
+    }
+
+    @FXML
+    public void searchProduct(){
+        String searchName = searchText.getText();
+        listProducts("", 0, searchName);
     }
 
     @FXML
     public void clearCategory(){
         selectCategory.getSelectionModel().clearSelection();
-        listProducts(productService.getProducts());
+        searchText.setText("");
+        listProducts("",0,"");
     }
 
     @FXML
@@ -166,12 +174,6 @@ public class IndexController implements Initializable {
         refreshProducto();
     }
     
-    @FXML
-    public void searchProduct(){
-        List<ProductDTO> listProductsByName = productService.getProductsByName(searchText.getText());
-        listProducts(listProductsByName);
-    }
-
     public void selectedItemStock(){
         ProductDTO productStock = stockTable.getSelectionModel().getSelectedItem();
         nameText.setText(productStock.getNameProduct());
@@ -180,10 +182,10 @@ public class IndexController implements Initializable {
     }
 
     private void refreshProducto(){
-        clearCategory();
         nameText.setText("");
         amountText.setText("");
         selectCategoryProduct.getSelectionModel().clearSelection();
+        clearCategory();
     }
 
     @FXML

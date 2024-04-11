@@ -9,9 +9,9 @@ import com.babydevcode.stockhouse.entities.Product;
 
 public interface ProductService {
     
-    public List<ProductDTO> getProductsByCategory(String category);
+    public Page<ProductDTO> getProductsByCategory(String category, Integer page);
 
-    public List<ProductDTO> getProductsByName(String productName);
+    public Page<ProductDTO> getProductsByName(String productName, Integer page);
 
     public List<ProductDTO> getProducts();
     
