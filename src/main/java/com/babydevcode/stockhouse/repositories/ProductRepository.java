@@ -1,6 +1,8 @@
 package com.babydevcode.stockhouse.repositories;
 
 
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,6 +16,6 @@ public interface ProductRepository extends JpaRepository<Product,Integer> {
     
     Page<Product> findByNameProductContaining(String nameProduct, Pageable pageable);
 
-    Product findByNameProduct(String nameProduct);
+    Optional<Product> findByNameProduct(String nameProduct);
 
 }

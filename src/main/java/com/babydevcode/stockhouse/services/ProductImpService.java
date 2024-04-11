@@ -52,14 +52,14 @@ public class ProductImpService implements ProductService {
 
     @Override
     public void updateProductAmount(String productName, Integer amount) {
-        Product productSearched = productRepository.findByNameProduct(productName);
+        Product productSearched = productRepository.findByNameProduct(productName).orElseThrow();
         productSearched.setAmountProduct(amount);
         productRepository.save(productSearched);
     }
 
     @Override
     public void deleteProduct(String productName) {
-        Product product = productRepository.findByNameProduct(productName);
+        Product product = productRepository.findByNameProduct(productName).orElseThrow();
         productRepository.delete(product);
     }
 
@@ -72,7 +72,7 @@ public class ProductImpService implements ProductService {
     }
 
     private List<ProductDTO> transformProductToDTO(List<Product> products){
-        List<ProductDTO> productDTOs = new ArrayList<ProductDTO>();
+        List<ProductDTO> productDTOs = new ArrayList<>();
         for (Product product : products) {
             ProductDTO productDTO = productMapper.productToDto(product);
             productDTOs.add(productDTO);
@@ -81,9 +81,8 @@ public class ProductImpService implements ProductService {
     }
 
     @Override
-    public Product getProduct(String productName) {
-        Product product = productRepository.findByNameProduct(productName);
-        return product;
+    public boolean getProduct(String productName) { 
+        return productRepository.findByNameProduct(productName).isPresent();
     }
 
     @Override

@@ -146,11 +146,16 @@ public class IndexController implements Initializable {
             mostrarMensaje("Campos incompletos", "Todos los campos son necesarios");
             return;
         }
+        if (Boolean.TRUE.equals(productService.getProduct(nameText.getText()))) {
+            mostrarMensaje("Producto existe", "El producto ya existe");
+            return;
+        }
         ProductDTO productDTO = new ProductDTO();
         productDTO.setNameProduct(nameText.getText());
         productDTO.setAmountProduct(Integer.valueOf(amountText.getText()));
         productDTO.setCategory(selectCategoryProduct.getSelectionModel().getSelectedItem());
         productService.addProduct(productDTO);
+        mostrarMensaje("Agregado", "El producto fue agregado a la lista");
         refreshProducto();
     }
 
@@ -160,7 +165,12 @@ public class IndexController implements Initializable {
             mostrarMensaje("Campos incompletos", "Todos los campos son necesarios");
             return;
         }
+        if (Boolean.FALSE.equals(productService.getProduct(nameText.getText()))) {
+            mostrarMensaje("Producto no existe", "El producto no existe");
+            return;
+        }
         productService.updateProductAmount(nameText.getText(),Integer.valueOf(amountText.getText()));
+        mostrarMensaje("Actualización", "El producto se actualizo correctamente");
         refreshProducto();
     }
 
@@ -170,7 +180,12 @@ public class IndexController implements Initializable {
             mostrarMensaje("Campos incompletos", "Todos los campos son necesarios");
             return;
         }
+        if (Boolean.FALSE.equals(productService.getProduct(nameText.getText()))) {
+            mostrarMensaje("Producto no existe", "El producto no existe");
+            return;
+        }
         productService.deleteProduct(nameText.getText());
+        mostrarMensaje("Eliminación", "Producto eliminado");
         refreshProducto();
     }
     

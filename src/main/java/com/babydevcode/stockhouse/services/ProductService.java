@@ -23,6 +23,6 @@ public interface ProductService {
 
     public void deleteProduct(String productName);
 
-    public Product getProduct(String productName);
+    public boolean getProduct(String productName);
 
 }
