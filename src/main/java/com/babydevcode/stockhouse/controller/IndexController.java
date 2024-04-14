@@ -1,8 +1,6 @@
 package com.babydevcode.stockhouse.controller;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +8,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import com.babydevcode.stockhouse.dto.ProductDTO;
-import com.babydevcode.stockhouse.entities.Product;
 import com.babydevcode.stockhouse.services.CategoryService;
 import com.babydevcode.stockhouse.services.ProductService;
 
@@ -101,13 +98,7 @@ public class IndexController implements Initializable {
 
     private void listProducts(String category, Integer page, String searching) {
         stockList.clear();
-        if (category.isEmpty() && !searching.isEmpty()) {
-            listProductsPage = productService.getProductsByName(searchText.getText(), page);
-        } else if (!category.isEmpty()) {
-            listProductsPage = productService.getProductsByCategory(category, page);
-        } else {
-            listProductsPage = productService.getProductsPage(page);
-        }
+        listProductsPage = productService.getProductsByCategoryOrSearch(category, searching, page);
         paginationProduct.setPageCount(listProductsPage.getTotalPages());
         paginationProduct.setCurrentPageIndex(listProductsPage.getNumber());
         stockList.addAll(listProductsPage.getContent());
@@ -124,12 +115,14 @@ public class IndexController implements Initializable {
     public void getCategory(){
         String categoryExist = selectCategory.getSelectionModel().getSelectedItem() ;
         String categoryName = categoryExist != null ? categoryExist : "";
+        searchText.setText("");
         listProducts(categoryName, 0, "");
     }
 
     @FXML
     public void searchProduct(){
         String searchName = searchText.getText();
+        selectCategory.getSelectionModel().clearSelection();
         listProducts("", 0, searchName);
     }
 

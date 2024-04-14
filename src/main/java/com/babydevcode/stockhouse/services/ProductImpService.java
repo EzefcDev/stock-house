@@ -28,15 +28,6 @@ public class ProductImpService implements ProductService {
     ProductMapper productMapper;
 
     @Override
-    public Page<ProductDTO> getProductsByCategory(String category, Integer page) {
-        Integer size = 8 ;
-        Pageable pageable = PageRequest.of(page, size);
-        Category categoryEntity = categoryService.getCategoryByName(category);
-        Page<Product> products = productRepository.findAllByCategory(categoryEntity, pageable);
-        return productMapper.productsToProductDTOs(products);
-    }
-
-    @Override
     public List<ProductDTO> getProducts() {
        List<Product> products = productRepository.findAll();
        return transformProductToDTO(products);
@@ -63,14 +54,6 @@ public class ProductImpService implements ProductService {
         productRepository.delete(product);
     }
 
-    @Override
-    public Page<ProductDTO> getProductsByName(String productName, Integer page) {
-        Integer size = 8 ;
-        Pageable pageable = PageRequest.of(page, size);
-        Page<Product> productsSearching = productRepository.findByNameProductContaining(productName, pageable);
-        return productMapper.productsToProductDTOs(productsSearching);
-    }
-
     private List<ProductDTO> transformProductToDTO(List<Product> products){
         List<ProductDTO> productDTOs = new ArrayList<>();
         for (Product product : products) {
@@ -86,11 +69,19 @@ public class ProductImpService implements ProductService {
     }
 
     @Override
-    public Page<ProductDTO> getProductsPage(Integer page) {
+    public Page<ProductDTO> getProductsByCategoryOrSearch(String category, String productName, Integer page) {
         Integer size = 8 ;
         Pageable pageable = PageRequest.of(page, size);
-        Page<Product> listProducts = productRepository.findAll(pageable);
-        return productMapper.productsToProductDTOs(listProducts);
+        Page<Product> products;
+        if (!category.isEmpty()) {
+            Category categoryEntity = categoryService.getCategoryByName(category);
+            products = productRepository.findAllByCategory(categoryEntity, pageable);
+        } else if(!productName.isEmpty()){
+            products = productRepository.findByNameProductContaining(productName, pageable);
+        } else {
+            products = productRepository.findAll(pageable);
+        }
+        return productMapper.productsToProductDTOs(products);
     }
 
 }
