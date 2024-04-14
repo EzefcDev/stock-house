@@ -2,6 +2,7 @@ package com.babydevcode.stockhouse.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -54,7 +55,7 @@ public class ProductImpService implements ProductService {
         productRepository.delete(product);
     }
 
-    private List<ProductDTO> transformProductToDTO(List<Product> products){
+    private List<ProductDTO> transformProductToDTO(List<Product> products) {
         List<ProductDTO> productDTOs = new ArrayList<>();
         for (Product product : products) {
             ProductDTO productDTO = productMapper.productToDto(product);
@@ -82,6 +83,15 @@ public class ProductImpService implements ProductService {
             products = productRepository.findAll(pageable);
         }
         return productMapper.productsToProductDTOs(products);
+    }
+
+    @Override
+    public List<ProductDTO> createFile() {
+        List<Product> products = productRepository.findAll();
+        List<Product> productsLessThanFour = products.stream()
+            .filter( product -> product.getAmountProduct() < 4)
+            .collect(Collectors.toList());
+        return transformProductToDTO(productsLessThanFour);
     }
 
 }

@@ -20,4 +20,6 @@ public interface ProductService {
 
     public boolean getProduct(String productName);
 
+    public List<ProductDTO> createFile();
+
 }

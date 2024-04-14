@@ -1,6 +1,7 @@
 package com.babydevcode.stockhouse.controller;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -221,5 +222,11 @@ public class IndexController implements Initializable {
         alerta.setHeaderText(null);
         alerta.setContentText(mensaje);
         alerta.showAndWait();
+    }
+
+    @FXML
+    public void getProductLessThanFour(){
+        List<ProductDTO> listProductsLessThanFour = productService.createFile();
+        System.out.println(listProductsLessThanFour);
     }
 }

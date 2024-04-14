@@ -12,13 +12,14 @@
 
 <AnchorPane accessibleText="Stock" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="864.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.babydevcode.stockhouse.controller.IndexController">
    <children>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="82.0" prefWidth="540.0">
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="82.0" prefWidth="864.0">
          <children>
             <Label layoutX="6.0" layoutY="12.0" text="Categorias" />
             <ComboBox fx:id="selectCategory" layoutX="6.0" layoutY="37.0" onAction="#getCategory" prefWidth="150.0" />
             <Button fx:id="clearButton" layoutX="172.0" layoutY="37.0" mnemonicParsing="false" onAction="#clearCategory" text="Limpiar" />
             <TextField fx:id="searchText" layoutX="286.0" layoutY="37.0" />
             <Button fx:id="searchButton" layoutX="461.0" layoutY="37.0" mnemonicParsing="false" onAction="#searchProduct" text="Buscar" />
+            <Button layoutX="634.0" layoutY="35.0" mnemonicParsing="false" onAction="#getProductLessThanFour" text="Obtener lista de urgentes" />
          </children>
       </AnchorPane>
       <Pane layoutX="42.0" layoutY="99.0" prefHeight="220.0" prefWidth="500.0">
