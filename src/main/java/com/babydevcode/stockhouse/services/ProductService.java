@@ -1,5 +1,6 @@
 package com.babydevcode.stockhouse.services;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -20,6 +21,6 @@ public interface ProductService {
 
     public boolean getProduct(String productName);
 
-    public List<ProductDTO> createFile();
+    public void exportProductsToCSV() throws IOException;
 
 }

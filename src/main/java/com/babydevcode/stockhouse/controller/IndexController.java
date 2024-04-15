@@ -1,5 +1,6 @@
 package com.babydevcode.stockhouse.controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -226,7 +227,11 @@ public class IndexController implements Initializable {
 
     @FXML
     public void getProductLessThanFour(){
-        List<ProductDTO> listProductsLessThanFour = productService.createFile();
-        System.out.println(listProductsLessThanFour);
+        try {
+            productService.exportProductsToCSV();
+            mostrarMensaje("Exportado", "El documento fue creado");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

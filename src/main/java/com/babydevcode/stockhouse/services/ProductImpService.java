@@ -1,5 +1,8 @@
 package com.babydevcode.stockhouse.services;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -85,13 +88,27 @@ public class ProductImpService implements ProductService {
         return productMapper.productsToProductDTOs(products);
     }
 
-    @Override
-    public List<ProductDTO> createFile() {
+    public List<Product> getProductsWithQuantityLessThanFour() {
         List<Product> products = productRepository.findAll();
-        List<Product> productsLessThanFour = products.stream()
+        return products.stream()
             .filter( product -> product.getAmountProduct() < 4)
             .collect(Collectors.toList());
-        return transformProductToDTO(productsLessThanFour);
+    }
+
+    @Override
+    public void exportProductsToCSV() throws IOException {
+        List<Product> products = getProductsWithQuantityLessThanFour();
+        String userDownloadsDir = System.getProperty("user.home") + "\\Downloads";
+        String filePath = Paths.get(userDownloadsDir, "productos.csv").toString();
+        try (FileWriter writer = new FileWriter(filePath)) {
+            writer.append("Producto,Cantidad\n"); 
+            for (Product product : products) {
+                writer.append(product.getNameProduct())
+                        .append(",")
+                        .append(String.valueOf(product.getAmountProduct()))
+                        .append("\n");
+            }
+        }
     }
 
 }
